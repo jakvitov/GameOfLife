@@ -31,19 +31,25 @@ const drawGrid = (context : any) => {
     context.stroke();
 }
 
-//Convert any string to set of coordinates
-const seedToInitialState = (seed : string) => {
-
+//Generate ranodm coordinates for given anmount of cells
+const generateRandomSeed = (cellCount : number) => {
+    let state = new Set<Cell>; 
+    for (let i : number = 0; i < cellCount; i++){
+        let x : number = Math.floor(Math.random() * CELL_SIZE);
+        let y : number = Math.floor(Math.random() * CELL_SIZE);
+        state.add({x, y})
+    }
+    return state;
 }
-
 
 const startGame = () => {
     console.log("Game starts!")
     const canvas : any= document.getElementById("drawBoard");
     const ctx : any= canvas.getContext("2d");
-    drawGrid(ctx)
-    drawCell({x: 0, y: 0}, ctx)
-    drawCell({x: 1, y: 1}, ctx)
+    drawGrid(ctx);
+    drawCell({x: 0, y: 0}, ctx);
+    drawCell({x: 1, y: 1}, ctx);
+    console.log(generateRandomSeed(20));
 }
 
 window.addEventListener("load", startGame);
