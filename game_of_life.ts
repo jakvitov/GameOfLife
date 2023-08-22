@@ -35,8 +35,8 @@ const drawGrid = (context : any) => {
 const generateRandomSeed = (cellCount : number) => {
     let state = new Set<Cell>; 
     for (let i : number = 0; i < cellCount; i++){
-        let x : number = Math.floor(Math.random() * CELL_SIZE);
-        let y : number = Math.floor(Math.random() * CELL_SIZE);
+        let x : number = Math.floor(Math.random() * SQUARES_COUNT);
+        let y : number = Math.floor(Math.random() * SQUARES_COUNT);
         state.add({x, y})
     }
     return state;
@@ -47,9 +47,7 @@ const startGame = () => {
     const canvas : any= document.getElementById("drawBoard");
     const ctx : any= canvas.getContext("2d");
     drawGrid(ctx);
-    drawCell({x: 0, y: 0}, ctx);
-    drawCell({x: 1, y: 1}, ctx);
-    console.log(generateRandomSeed(20));
+    generateRandomSeed(400).forEach((cell) => drawCell(cell, ctx));
 }
 
 window.addEventListener("load", startGame);
