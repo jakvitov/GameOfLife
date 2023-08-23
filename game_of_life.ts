@@ -2,6 +2,7 @@ const SQUARES_COUNT : number = 100;
 const WIDTH : number = 700;
 const HEIGHT : number = 700;
 const CELL_SIZE : number=WIDTH/SQUARES_COUNT
+let RUNNING : boolean = false;
 
 /**
  * JS does comparison of objects in Set by reference, not value. So we store and compare cells as strings and convert them
@@ -129,6 +130,10 @@ const nextGeneration = (generation : number, liveCells : Set<string>, ctx : any)
 }
 
 const startGame = () => {
+    if (RUNNING){
+        return;
+    }
+    RUNNING = true;
     const canvas : any= document.getElementById("drawBoard");
     const ctx : any= canvas.getContext("2d");
     drawGrid(ctx);
@@ -141,4 +146,5 @@ const startGame = () => {
     setInterval(() => nextGeneration(generation ++, liveCells, ctx), 500);
 }
 
-window.addEventListener("load", startGame);
+
+document.getElementById("start").addEventListener("click", startGame);
