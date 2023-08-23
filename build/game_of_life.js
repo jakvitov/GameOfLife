@@ -1,7 +1,7 @@
-var SQUARES_COUNT = 100;
 var WIDTH = 700;
 var HEIGHT = 700;
-var CELL_SIZE = WIDTH / SQUARES_COUNT;
+var SQUARES_COUNT = 100;
+var CELL_COUNT = 2500;
 var RUNNING = false;
 var cellToString = function (cell) {
     return cell.x + "_" + cell.y;
@@ -10,11 +10,9 @@ var stringToCell = function (cellStr) {
     var parsed = cellStr.split("_");
     return { x: parseInt(parsed[0]), y: parseInt(parsed[1]) };
 };
-var removeCell = function (cell, context) {
-    context.clearRect(cell.x * CELL_SIZE, cell.y * CELL_SIZE, WIDTH / SQUARES_COUNT, HEIGHT / SQUARES_COUNT);
-};
 var drawCell = function (cell, context) {
-    context.rect(cell.x * CELL_SIZE, cell.y * CELL_SIZE, WIDTH / SQUARES_COUNT, HEIGHT / SQUARES_COUNT);
+    var cellSize = WIDTH / SQUARES_COUNT;
+    context.rect(cell.x * cellSize, cell.y * cellSize, WIDTH / SQUARES_COUNT, HEIGHT / SQUARES_COUNT);
     context.fill();
 };
 var drawGrid = function (context) {
@@ -32,6 +30,7 @@ var drawGrid = function (context) {
 };
 //Generate ranodm coordinates for given anmount of cells
 var generateRandomSeed = function (cellCount) {
+    console.log(cellCount);
     var state = new Set;
     for (var i = 0; i < cellCount; i++) {
         var x = Math.floor(Math.random() * SQUARES_COUNT);
@@ -97,13 +96,10 @@ var startGame = function () {
         return;
     }
     RUNNING = true;
-    var canvas = document.getElementById("drawBoard");
-    var ctx = canvas.getContext("2d");
-    drawGrid(ctx);
-    //Initialization of the grid
-    var generation = 1;
-    var liveCells = generateRandomSeed(2000);
+    var liveCells = generateRandomSeed(CELL_COUNT);
+    var ctx = gameSetup();
     liveCells.forEach(function (cell) { return drawCell(stringToCell(cell), ctx); });
+    var generation = 1;
     var int = setInterval(function () {
         if (RUNNING) {
             nextGeneration(generation++, liveCells, ctx);
@@ -113,7 +109,24 @@ var startGame = function () {
         }
     }, 500);
 };
+var gameSetup = function () {
+    console.log("setup");
+    var canvas = document.getElementById("drawBoard");
+    var ctx = canvas.getContext("2d");
+    drawGrid(ctx);
+    return ctx;
+};
 document.getElementById("start").addEventListener("click", startGame);
 document.getElementById("stop").addEventListener("click", function () {
     RUNNING = false;
+});
+document.getElementById("size").addEventListener("input", function (ev) {
+    var inputElement = ev.target;
+    SQUARES_COUNT = parseInt(inputElement.value);
+    gameSetup();
+});
+document.getElementById("cellCount").addEventListener("input", function (ev) {
+    var inputElement = ev.target;
+    CELL_COUNT = parseInt(inputElement.value);
+    gameSetup();
 });

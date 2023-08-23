@@ -11,15 +11,17 @@
     <nav class="optionsDiv">
         <p>Time per generation render [ms]: <span id="timePerGeneration"></span></p>
 
-        <label for="cellCount">Number of cells at the start:</label>
+        <label for="size">Size of the board: </label>
+        <input type="number" id="size" name="size" min="0" step="10" />
+
+        <label for="cellCount">Number of cells generated: </label>
         <input type="number" id="cellCount" name="cellCount" min="0" step="10" />
 
         <button id="start">Start</button>
         <button id="stop">Stop</button>
         
     </nav>  
-    <canvas id="drawBoard" width="700" height="700"></canvas>
+    <canvas id="drawBoard" width="700" height="700" ></canvas>
     <script src="./build/game_of_life.js"></script>
-
 </body>
 </html>
