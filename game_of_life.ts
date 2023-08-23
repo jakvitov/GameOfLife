@@ -23,7 +23,6 @@ const stringToCell = (cellStr : string) => {
 }
 
 const removeCell = (cell : Cell, context : any) => {
-    console.log("Removing: " + cell.x + ", " + cell.y);
     context.clearRect(cell.x * CELL_SIZE, cell.y * CELL_SIZE, WIDTH/SQUARES_COUNT, HEIGHT/SQUARES_COUNT)
 }
 
@@ -75,7 +74,9 @@ const getNeighbourCells = (cell : Cell) => {
 }
 
 const nextGeneration = (generation : number, liveCells : Set<string>, ctx : any) => {
-    console.log("Starting generation " + generation + ". Live cells " + liveCells.size + ".");
+    let startTime : number = Date.now();
+    
+    //console.log("Starting generation " + generation + ". Live cells " + liveCells.size + ".");
     ctx.clearRect(0, 0, WIDTH, HEIGHT);
     drawGrid(ctx);
     liveCells.forEach((cell) =>  drawCell(stringToCell(cell), ctx))
@@ -122,17 +123,18 @@ const nextGeneration = (generation : number, liveCells : Set<string>, ctx : any)
         liveCells.delete(cell);
     })
 
-    console.log("Ending generation " + generation + " died: "  + dyingCells.size + ", came to life: " + cellsCommingToLife.size + ". ");
+
+    let endTime : number = Date.now();
+    document.getElementById("timePerGeneration").textContent = `${(endTime - startTime)}`;
 }
 
 const startGame = () => {
-    console.log("Game starts!")
     const canvas : any= document.getElementById("drawBoard");
     const ctx : any= canvas.getContext("2d");
     drawGrid(ctx);
     //Initialization of the grid
     let generation : number = 1;
-    let liveCells : Set<string> = generateRandomSeed(3000);
+    let liveCells : Set<string> = generateRandomSeed(2000);
 
     liveCells.forEach(cell => drawCell(stringToCell(cell), ctx))
 
