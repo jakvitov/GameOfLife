@@ -33,6 +33,7 @@ const drawCell = (cell : Cell, context : any) => {
 }
 
 const drawGrid = (context : any) => {
+    context.clearRect(0, 0, WIDTH, HEIGHT);
     context.beginPath();
     for (let i : number = 0; i < HEIGHT; i += (HEIGHT / SQUARES_COUNT )){
         context.moveTo(0, i);
@@ -78,7 +79,6 @@ const nextGeneration = (generation : number, liveCells : Set<string>, ctx : any)
     let startTime : number = Date.now();
     
     //console.log("Starting generation " + generation + ". Live cells " + liveCells.size + ".");
-    ctx.clearRect(0, 0, WIDTH, HEIGHT);
     drawGrid(ctx);
     liveCells.forEach((cell) =>  drawCell(stringToCell(cell), ctx))
     let dyingCells : Set<string> = new Set<string>
@@ -143,8 +143,18 @@ const startGame = () => {
 
     liveCells.forEach(cell => drawCell(stringToCell(cell), ctx))
 
-    setInterval(() => nextGeneration(generation ++, liveCells, ctx), 500);
+    var int = setInterval(() => {
+        if (RUNNING){
+            nextGeneration(generation ++, liveCells, ctx);
+        }
+        else {
+            clearInterval(int);
+        }
+    }, 500);
 }
 
 
 document.getElementById("start").addEventListener("click", startGame);
+document.getElementById("stop").addEventListener("click", () => {
+    RUNNING = false;
+});

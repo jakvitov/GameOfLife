@@ -18,6 +18,7 @@ var drawCell = function (cell, context) {
     context.fill();
 };
 var drawGrid = function (context) {
+    context.clearRect(0, 0, WIDTH, HEIGHT);
     context.beginPath();
     for (var i = 0; i < HEIGHT; i += (HEIGHT / SQUARES_COUNT)) {
         context.moveTo(0, i);
@@ -54,7 +55,6 @@ var getNeighbourCells = function (cell) {
 var nextGeneration = function (generation, liveCells, ctx) {
     var startTime = Date.now();
     //console.log("Starting generation " + generation + ". Live cells " + liveCells.size + ".");
-    ctx.clearRect(0, 0, WIDTH, HEIGHT);
     drawGrid(ctx);
     liveCells.forEach(function (cell) { return drawCell(stringToCell(cell), ctx); });
     var dyingCells = new Set;
@@ -104,6 +104,16 @@ var startGame = function () {
     var generation = 1;
     var liveCells = generateRandomSeed(2000);
     liveCells.forEach(function (cell) { return drawCell(stringToCell(cell), ctx); });
-    setInterval(function () { return nextGeneration(generation++, liveCells, ctx); }, 500);
+    var int = setInterval(function () {
+        if (RUNNING) {
+            nextGeneration(generation++, liveCells, ctx);
+        }
+        else {
+            clearInterval(int);
+        }
+    }, 500);
 };
 document.getElementById("start").addEventListener("click", startGame);
+document.getElementById("stop").addEventListener("click", function () {
+    RUNNING = false;
+});
