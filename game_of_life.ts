@@ -1,8 +1,8 @@
 const WIDTH : number = 700;
 const HEIGHT : number = 700;
 
-let SQUARES_COUNT : number = 100;
-let CELL_COUNT : number = 2500;
+let SQUARES_COUNT : number = 50;
+let CELL_COUNT : number = 1250;
 let RUNNING : boolean = false;
 
 
@@ -16,7 +16,7 @@ let RUNNING : boolean = false;
 interface Cell {
     x : number
     y : number
-}
+} 
 
 const cellToString = (cell : Cell) => {
     return cell.x + "_" + cell.y;
@@ -128,7 +128,9 @@ const nextGeneration = (generation : number, liveCells : Set<string>, ctx : any)
 
 
     let endTime : number = Date.now();
-    document.getElementById("timePerGeneration").textContent = `${(endTime - startTime)}`;
+    document.getElementById("timePerGeneration").textContent = `${(endTime - startTime)}ms and running!`;
+    document.getElementById("generationNumber").textContent = ` ${generation} generation. `;
+
 }
 
 const startGame = () => {
@@ -147,7 +149,7 @@ const startGame = () => {
         else {
             clearInterval(int);
         }
-    }, 500);
+    }, 300);
 }
 
 const gameSetup = () => {

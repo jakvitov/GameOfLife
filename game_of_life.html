@@ -9,13 +9,13 @@
 <body>
     <h1>Cellular life simulator</h1>
     <nav class="optionsDiv">
-        <p>Time per generation render [ms]: <span id="timePerGeneration"></span></p>
+        <p>Time per generation render: <span id="timePerGeneration"></span> <span id="generationNumber"></span></p>
 
-        <label for="size">Size of the board: </label>
-        <input type="number" id="size" name="size" min="0" step="10" />
+        <label for="size" >Size of the board: </label>
+        <input type="number" id="size" value="50" name="size" min="0" step="10" />
 
-        <label for="cellCount">Number of cells generated: </label>
-        <input type="number" id="cellCount" name="cellCount" min="0" step="10" />
+        <label for="cellCount" >Number of cells generated: </label>
+        <input type="number" id="cellCount" name="cellCount" value="1250" min="0" step="10" />
 
         <button id="start">Start</button>
         <button id="stop">Stop</button>

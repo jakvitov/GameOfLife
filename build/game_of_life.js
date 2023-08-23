@@ -1,7 +1,7 @@
 var WIDTH = 700;
 var HEIGHT = 700;
-var SQUARES_COUNT = 100;
-var CELL_COUNT = 2500;
+var SQUARES_COUNT = 50;
+var CELL_COUNT = 1250;
 var RUNNING = false;
 var cellToString = function (cell) {
     return cell.x + "_" + cell.y;
@@ -89,7 +89,8 @@ var nextGeneration = function (generation, liveCells, ctx) {
         liveCells.delete(cell);
     });
     var endTime = Date.now();
-    document.getElementById("timePerGeneration").textContent = "".concat((endTime - startTime));
+    document.getElementById("timePerGeneration").textContent = "".concat((endTime - startTime), "ms and running!");
+    document.getElementById("generationNumber").textContent = " ".concat(generation, " generation. ");
 };
 var startGame = function () {
     if (RUNNING) {
@@ -107,7 +108,7 @@ var startGame = function () {
         else {
             clearInterval(int);
         }
-    }, 500);
+    }, 300);
 };
 var gameSetup = function () {
     console.log("setup");
